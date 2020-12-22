@@ -44,12 +44,3 @@ jobs:
       - name: Run a one-line script
         run: echo homolog
               
-  deploy-prod:
-    runs-on: ubuntu-latest
-    needs: deploy-hmg
-    environment: 
-      name: prod
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run a one-line script
-        run: echo production
