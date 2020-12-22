@@ -38,9 +38,19 @@ jobs:
     needs: deploy-dev
     environment: 
       name: hmg
-      url: "https://www.youtube.com/channel/UCnQzZNPePG3EZMj7Qg3D0Sw"
     steps:
       - uses: actions/checkout@v2
       - name: Run a one-line script
         run: echo homolog
+        
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: deploy-hmg
+    environment: 
+      name: prod
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: echo production
+
               
