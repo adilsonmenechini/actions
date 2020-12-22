@@ -38,6 +38,7 @@ jobs:
     needs: deploy-dev
     environment: 
       name: hmg
+      url: "https://www.youtube.com/channel/UCnQzZNPePG3EZMj7Qg3D0Sw"
     steps:
       - uses: actions/checkout@v2
       - name: Run a one-line script
