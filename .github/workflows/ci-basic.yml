@@ -30,11 +30,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run a one-line script
-        run: echo devolp!
+        run: echo devolp 1!
+      - name: Run a one-line script
+        run: echo devolp 2!
         
   deploy-prod:
     runs-on: ubuntu-latest
-    needs: build
+    needs: deploy-dev
     steps:
       - uses: actions/checkout@v2
       - name: Run a one-line script
