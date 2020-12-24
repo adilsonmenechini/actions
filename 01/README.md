@@ -1,4 +1,6 @@
-# actions
-workflow
+# Basico
 
-[imagem](https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md)
+## Exemplos de CI
+
+    - Processo basico
+    - Processo com Environment(dev,hmg e prod) 
