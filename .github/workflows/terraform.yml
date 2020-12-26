@@ -17,8 +17,13 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - uses: actions/checkout@v2
-      - uses: hashicorp/setup-terraform@v1
 
+     - name: Terraform security scan
+        uses: triat/terraform-security-scan@v2.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - uses: hashicorp/setup-terraform@v1
 
       - name: Terraform fmt
         id: fmt
