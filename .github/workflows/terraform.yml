@@ -24,44 +24,44 @@ jobs:
         run: terraform fmt
         continue-on-error: true
 
-      - name: Terraform Init
-        id: init
-        run: terraform init -backend-config="bucket=eks-tfstate-trinovati"  -backend-config="key=ci/terraform.tfstate" -backend-config="region=us-west-2" 
+      # - name: Terraform Init
+      #   id: init
+      #   run: terraform init -backend-config="bucket=eks-tfstate-trinovati"  -backend-config="key=ci/terraform.tfstate" -backend-config="region=us-west-2" 
 
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
+      # - name: Terraform Validate
+      #   id: validate
+      #   run: terraform validate -no-color
 
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color
+      # - name: Terraform Plan
+      #   id: plan
+      #   run: terraform plan -no-color
 
-      - uses: actions/github-script@0.9.0
-        if: github.event_name == 'pull_request'
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖${{ steps.validate.outputs.stdout }}
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+      # - uses: actions/github-script@0.9.0
+      #   if: github.event_name == 'pull_request'
+      #   env:
+      #     PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+      #       #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+      #       #### Terraform Validation 🤖${{ steps.validate.outputs.stdout }}
+      #       #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
             
-            <details><summary>Show Plan</summary>
+      #       <details><summary>Show Plan</summary>
             
-            \`\`\`${process.env.PLAN}\`\`\`
+      #       \`\`\`${process.env.PLAN}\`\`\`
             
-            </details>
+      #       </details>
             
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+      #       *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
               
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
+      #       github.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: output
+      #       })
 
   tfsec:
     name: tfsec
@@ -70,7 +70,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Terraform security scan
-        uses: triat/terraform-security-scan@v2.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Terraform security scan
+      #   uses: triat/terraform-security-scan@v2.0.2
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  create_issue:
+    name: tfsec
+    runs-on: ubuntu-latest
+    needs: tfsec
+    steps:
+        - name: Create Release Issue
+          uses: ./.github/actions/create-issue
+          with:
+              token: ${{ secrets.GITHUB_TOKEN }}
+              action-id: ${{ github.run_id }}
+              package-version: ${{ env.package_version }}
