@@ -83,11 +83,12 @@ jobs:
           terraform init -backend-config="bucket=eks-tfstate-trinovati"  -backend-config="key=ci/terraform.tfstate" -backend-config="region=us-west-2" 
           terraform validate -no-color
           terraform fmt
+          terrafrom plan -out=config
 
       - name: Terraform Apply
         id: apply
         #if: github.ref == 'refs/heads/main'
-        run: terraform apply
+        run: terraform apply config
 
       # - name: Terraform Destroy
       #   id: destroy
