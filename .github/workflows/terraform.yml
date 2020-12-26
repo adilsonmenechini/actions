@@ -22,9 +22,9 @@ jobs:
       - name: Terraform Init
         id: init
         run: |
-        terraform init -backend-config="bucket=eks-tfstate-trinovati"  -backend-config="key=ci/terraform.tfstate" -backend-config="region=us-west-2" 
-        terraform validate -no-color
-        terraform fmt
+          terraform init -backend-config="bucket=eks-tfstate-trinovati"  -backend-config="key=ci/terraform.tfstate" -backend-config="region=us-west-2" 
+          terraform validate -no-color
+          terraform fmt
 
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
