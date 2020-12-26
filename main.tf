@@ -50,5 +50,6 @@ resource "aws_s3_bucket" "log_bucket" {
 
 
 resource "aws_kms_key" "mykey" {
+  enable_key_rotation  = true
   deletion_window_in_days = 10
 }
