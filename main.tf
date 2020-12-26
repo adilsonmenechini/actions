@@ -37,6 +37,15 @@ resource "aws_s3_bucket" "ci" {
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "my-tf-log-bucket-ci"
   acl    = "log-delivery-write"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        kms_master_key_id = aws_kms_key.mykey.arn
+        sse_algorithm     = "aws:kms"
+      }
+    }
+  }
 }
 
 
