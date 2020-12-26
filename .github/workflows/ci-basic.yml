@@ -27,7 +27,7 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform remote config -backend=s3 -backend-config="bucket=eks-tfstate-trinovati"  -backend-config="key=ci/terraform.tfstate" -backend-config="region=us-west-2" 
+        run: terraform init -backend-config="bucket=eks-tfstate-trinovati"  -backend-config="key=ci/terraform.tfstate" -backend-config="region=us-west-2" 
 
       - name: Terraform Validate
         id: validate
