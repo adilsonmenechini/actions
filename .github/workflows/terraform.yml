@@ -80,9 +80,9 @@ jobs:
         id: validate
         if: github.ref == 'refs/heads/main'
         run: |
-        terraform init -backend-config="bucket=eks-tfstate-trinovati"  -backend-config="key=ci/terraform.tfstate" -backend-config="region=us-west-2" 
-        terraform validate -no-color
-        terraform fmt
+          terraform init -backend-config="bucket=eks-tfstate-trinovati"  -backend-config="key=ci/terraform.tfstate" -backend-config="region=us-west-2" 
+          terraform validate -no-color
+          terraform fmt
 
       - name: Terraform Apply
         id: apply
