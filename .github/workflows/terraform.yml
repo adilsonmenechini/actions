@@ -63,6 +63,12 @@ jobs:
       #         body: output
       #       })
 
+      - name: Terraform Apply
+        id: apply
+        if: github.ref == 'refs/heads/main'
+        run: terraform plan -no-color
+      
+
   tfsec:
     name: tfsec
     runs-on: ubuntu-latest
@@ -76,13 +82,13 @@ jobs:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   create_issue:
-    name: tfsec
+    name: create_issue
     runs-on: ubuntu-latest
     needs: tfsec
     steps:
-        - name: Create Release Issue
-          uses: ./.github/actions/create-issue
-          with:
-              token: ${{ secrets.GITHUB_TOKEN }}
-              action-id: ${{ github.run_id }}
-              package-version: ${{ env.package_version }}
+      - name: Create Release Issue
+        uses: ./.github/actions/create-issue
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            action-id: ${{ github.run_id }}
+            package-version: ${{ env.package_version }}
